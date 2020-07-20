@@ -15,7 +15,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Load calibration data
-    data = np.load(args.calbration_data)
+    data = np.load(args.calibration_data)
     mtx = data['name1']
     dist = data['name2']
     
