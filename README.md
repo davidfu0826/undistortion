@@ -8,12 +8,12 @@ Undistort any vidoe (.mp4) and save the results! This repo uses OpenCV and remov
 
 ## Usage
 
-To compute the camera matrix and distortion coefficients:
-`python3 calibrate_camera.py --img-dir <path to calibration images> --gridsize <two integers specifying grid size>`
-Example:
-`python3 calibrate_camera.py --img-dir calibration/images --gridsize 5 8`
+- To compute the camera matrix and distortion coefficients:
+  - `python3 calibrate_camera.py --img-dir <path to calibration images> --gridsize <two integers specifying grid size>`
+  - Example:
+  -`python3 calibrate_camera.py --img-dir calibration/images --gridsize 5 8`
 
-To undistort a video (.mp4)
-`python3 undistort.py --source <path to mp4 video>`
-Example:
-`python3 undistort.py --source test_video.mp4`
+- To undistort a video (.mp4)
+  - `python3 undistort.py --source <path to mp4 video>`
+  - Example:
+  - `python3 undistort.py --source test_video.mp4`
