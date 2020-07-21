@@ -12,13 +12,16 @@ if __name__ == "__main__":
                         help='Path to calibration data (.npz)')
     parser.add_argument('--source', type=str, required=True,
                         help='Path to the file to undistort.')
+    parser.add_argument('--alpha', type=float, default=1,
+                        help='How much distortion to crop (0 - 1).')
     args = parser.parse_args()
 
     # Load calibration data
     data = np.load(args.calibration_data)
     mtx = data['name1']
     dist = data['name2']
-    
+    alpha = args.alpha
+
     # Instantiate VideoCapture object and read metadata
     cap = cv2.VideoCapture(args.source)
     fps = int(cap.get(cv2.CAP_PROP_FPS))
@@ -30,7 +33,7 @@ if __name__ == "__main__":
     out = cv2.VideoWriter('output.mp4', fourcc, fps, (width,height))
 
     # Obtain new camera matrix from calibration data
-    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (width,height), 1, (width,height))
+    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (width,height), alpha, (width,height))
 
     # Start undistortion of video
     count = 0
