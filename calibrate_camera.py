@@ -1,6 +1,7 @@
 import glob
 import argparse
 
+import tqdm
 import os
 import cv2
 import numpy as np
@@ -39,10 +40,10 @@ if __name__ == "__main__":
 
     # Get path to all
     images = list()
-    for suffix in ['.png', '.jpg']:
-        images += glob.glob(os.path.join(CALIBRATION_DIR, '*.png'))
+    for suffix in ['*.png', '*.jpg']:
+        images += glob.glob(os.path.join(CALIBRATION_DIR, suffix))
 
-    for img_path in images:
+    for img_path in tqdm.tqdm(images):
         img = cv2.imread(img_path)
 
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -59,13 +60,14 @@ if __name__ == "__main__":
 
             # Draw and display the corners
             img = cv2.drawChessboardCorners(img, GRIDSIZE, corners2, ret)
-            cv2.imshow("Chessboard", img)
-            cv2.waitKey(500)
+            #cv2.imshow("Chessboard", img)
+            #cv2.waitKey(300)
 
-    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
-    save_path = os.path.abspath("calbration_data.npz")
+    calib_flags = cv2.CALIB_RATIONAL_MODEL + cv2.CALIB_FIX_PRINCIPAL_POINT #+ cv2.CALIB_USE_INTRINSIC_GUESS
+    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None, None, None, calib_flags)
+    save_path = os.path.abspath("calibration_data.npz")
 
-    np.savez('calbration_data.npz', name1=mtx, name2=dist)
+    np.savez('calibration_data.npz', name1=mtx, name2=dist)
 
     print("The distortion coefficients and camera matrix has been saved.")
     print(f"The save path: {save_path}")

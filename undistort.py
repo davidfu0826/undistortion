@@ -8,7 +8,7 @@ import numpy as np
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Undistort any media with OpenCV (Only video supported currently).')
-    parser.add_argument('--calibration-data', type=str, default='calbration_data.npz',
+    parser.add_argument('--calibration-data', type=str, default='calibration_data.npz',
                         help='Path to calibration data (.npz)')
     parser.add_argument('--source', type=str, required=True,
                         help='Path to the file to undistort.')
@@ -21,9 +21,9 @@ if __name__ == "__main__":
     
     # Instantiate VideoCapture object and read metadata
     cap = cv2.VideoCapture(args.source)
-    fps = cap.get(cv2.CV_CAP_PROP_FPS)
-    width  = cap.get(cv2.CV_CAP_PROP_FRAME_WIDTH)  
-    height = cap.get(cv2.CV_CAP_PROP_FRAME_HEIGHT) 
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) 
 
     # Instantiate VideoWriter object for writing to .mp4
     fourcc = cv2.VideoWriter_fourcc(*'MP4V')
